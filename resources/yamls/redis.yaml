@@ -1,0 +1,13 @@
+apiVersion: api.cucloud.com/v1alpha1
+kind: Generic
+metadata:
+  name: gr-redis
+spec:
+  gvr: "myapp/v1/redis"   #这就是pods的gvr 由于 core的group是 "" ，所有可以忽略
+  template:
+    name: "gr-redis"
+    data:
+      spark-defaults.conf:  |
+        spark.eventLog.enabled true
+      spark-env.sh:  |
+        export SPARK_HISTORY_OPTS=""

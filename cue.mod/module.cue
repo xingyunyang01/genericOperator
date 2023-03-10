@@ -1,0 +1,1 @@
+module: "cucloud.com/operator"

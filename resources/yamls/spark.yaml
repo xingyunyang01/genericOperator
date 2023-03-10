@@ -1,0 +1,8 @@
+apiVersion: api.cucloud.com/v1alpha1
+kind: Generic
+metadata:
+  name: gr-spark
+spec:
+   gvr: "emr/v1/spark"   #这就是pods的gvr 由于 core的group是 "" ，所有可以忽略
+   template:
+     name: "gr-spark"
