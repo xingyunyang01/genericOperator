@@ -39,15 +39,6 @@ workflow: {
     		kind: "Namespace",
     		metadata: {
         		name: "spark"
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
     		}
 		}
 		action: step0.action
@@ -59,16 +50,7 @@ workflow: {
 			kind: "ServiceAccount",
 			metadata: {
 				name: "spark",
-				namespace: "spark",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				namespace: "spark"
 			}
 		}
 		action: step0.action
@@ -80,16 +62,7 @@ workflow: {
     		kind: "Role",
     		metadata: {
 				namespace: "spark",
-				name: "spark-role",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				name: "spark-role"
 			},
 			rules: [
 				{
@@ -125,16 +98,7 @@ workflow: {
 			kind: "RoleBinding",
 			metadata: {
 				name: "spark-role-binding",
-				namespace: "spark",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				namespace: "spark"
 			},
 			subjects: [
 				{
@@ -157,16 +121,7 @@ workflow: {
 			apiVersion: "v1",
 			kind: "Namespace",
 			metadata: {
-				name: "spark-operator",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				name: "spark-operator"
 			}
 		}
 		action: step0.action
@@ -178,16 +133,7 @@ workflow: {
 			kind: "ServiceAccount",
 			metadata: {
 				name: "sparkoperator",
-				namespace: "spark-operator",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				namespace: "spark-operator"
 			}
 		}
 		action: step0.action
@@ -198,16 +144,7 @@ workflow: {
 			apiVersion: "rbac.authorization.k8s.io/v1",
 			kind: "ClusterRole",
 			metadata: {
-				name: "sparkoperator",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				name: "sparkoperator"
 			},
 			rules: [
 				{
@@ -367,16 +304,7 @@ workflow: {
 			apiVersion: "rbac.authorization.k8s.io/v1",
 			kind: "ClusterRoleBinding",
 			metadata: {
-				name: "sparkoperator",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				name: "sparkoperator"
 			},
 			subjects: [
 				{
@@ -402,16 +330,7 @@ workflow: {
 				labels: {
 					"rbac.authorization.k8s.io/aggregate-to-admin": "true"
 				},
-				name: "sparkoperator-aggregate-to-admin",
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				name: "sparkoperator-aggregate-to-admin"
 			},
 			rules: [
 				{
@@ -522,16 +441,7 @@ workflow: {
 				labels: {
 					"app.kubernetes.io/name": "sparkoperator",
 					"app.kubernetes.io/version": "v1beta2-1.3.5-3.1.3"
-				},
-				ownerReferences: [
-					{
-						apiVersion: generic.apiVersion
-						kind: generic.kind
-						name: generic.metadata.name
-						uid: generic.metadata.uid
-						controller: true
-					}
-				]
+				}
 			},
 			spec: {
 				backoffLimit: 3,
