@@ -15,7 +15,9 @@ generic:{}
 
 emr_v1_spark_input:{
 	name: string
-	ns: string | *"default"
+	ns: string | *"spark"
+	sparkdefaults: string
+	sparkenv: string
 }
 
 // workflow 是固定节点名称
@@ -39,6 +41,15 @@ workflow: {
     		kind: "Namespace",
     		metadata: {
         		name: "spark"
+				ownerReferences: [
+					{
+						apiVersion: generic.apiVersion
+						kind: generic.kind
+						name: generic.metadata.name
+						uid: generic.metadata.uid
+						controller: true
+					}
+				]
     		}
 		}
 		action: step0.action
@@ -50,7 +61,16 @@ workflow: {
 			kind: "ServiceAccount",
 			metadata: {
 				name: "spark",
-				namespace: "spark"
+				namespace: "spark",
+				ownerReferences: [
+					{
+						apiVersion: generic.apiVersion
+						kind: generic.kind
+						name: generic.metadata.name
+						uid: generic.metadata.uid
+						controller: true
+					}
+				]
 			}
 		}
 		action: step0.action
@@ -63,6 +83,15 @@ workflow: {
     		metadata: {
 				namespace: "spark",
 				name: "spark-role"
+				ownerReferences: [
+					{
+						apiVersion: generic.apiVersion
+						kind: generic.kind
+						name: generic.metadata.name
+						uid: generic.metadata.uid
+						controller: true
+					}
+				]
 			},
 			rules: [
 				{
@@ -99,6 +128,15 @@ workflow: {
 			metadata: {
 				name: "spark-role-binding",
 				namespace: "spark"
+				ownerReferences: [
+					{
+						apiVersion: generic.apiVersion
+						kind: generic.kind
+						name: generic.metadata.name
+						uid: generic.metadata.uid
+						controller: true
+					}
+				]
 			},
 			subjects: [
 				{
@@ -502,6 +540,31 @@ workflow: {
 					"app.kubernetes.io/name": "sparkoperator",
 					"app.kubernetes.io/version": "v1beta2-1.3.5-3.1.3"
 				}
+			}
+		}
+		action: step0.action
+		order: step13.order
+	}
+	step15: {
+		body: corev1.#ConfigMap & {
+			apiVersion: "v1"
+			kind:       "ConfigMap"
+			metadata: {
+				name: emr_v1_spark_input.name+"-cm"
+				namespace: emr_v1_spark_input.ns
+				ownerReferences: [
+					{
+						apiVersion: generic.apiVersion
+						kind: generic.kind
+						name: generic.metadata.name
+						uid: generic.metadata.uid
+						controller: true
+					}
+				]
+			}
+			data: {
+				"spark-defaults.conf": emr_v1_spark_input.sparkdefaults
+				"spark-env.sh": emr_v1_spark_input.sparkenv
 			}
 		}
 		action: step0.action

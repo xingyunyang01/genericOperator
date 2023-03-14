@@ -75,18 +75,19 @@ func apply(g *v1alpha1.Generic) error {
 		if err != nil {
 			return err
 		}
-	}
+	} else {
+		//单资源模式
+		//将模板中的g_v_r部分序列化成json
+		jsonBytes, err := filldCV.LookupPath(cue.ParsePath(cueName)).MarshalJSON()
+		if err != nil {
+			return err
+		}
 
-	//将模板中的g_v_r部分序列化成json
-	jsonBytes, err := filldCV.LookupPath(cue.ParsePath(cueName)).MarshalJSON()
-	if err != nil {
-		return err
-	}
-
-	//kubectl apply
-	_, err = helpers.K8sApply(jsonBytes, vars.RestConfig, vars.K8sRestMapper)
-	if err != nil {
-		return err
+		//kubectl apply
+		_, err = helpers.K8sApply(jsonBytes, vars.RestConfig, vars.K8sRestMapper)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

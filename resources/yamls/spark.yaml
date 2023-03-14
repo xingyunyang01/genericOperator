@@ -2,7 +2,18 @@ apiVersion: api.cucloud.com/v1alpha1
 kind: Generic
 metadata:
   name: gr-spark
+  namespace: spark
 spec:
-   gvr: "emr/v1/spark"   #这就是pods的gvr 由于 core的group是 "" ，所有可以忽略
-   template:
-     name: "gr-spark"
+  gvr: "emr/v1/spark"   #这就是pods的gvr 由于 core的group是 "" ，所有可以忽略
+  template:
+    name: "gr-spark"
+    sparkdefaults: |
+      spark.eventLog.enabled true
+      spark.eventLog.dir cos://xingyunyang/spark-events/
+      spark.hadoop.fs.s3a.access.key=gdfgdfgdfgdfgdfgdfg
+      spark.hadoop.fs.s3a.secret.key=gfdgdfgdfgdfgdfgfdg
+      spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+      spark.hadoop.fs.s3a.endpoint=cos.hhht-hqc.cos.tg.unicom.local
+      spark.hadoop.fs.s3a.connection.ssl.enabled="false"
+    sparkenv:  |
+      export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080 -Dspark.history.retainedApplications=3 -Dspark.history.fs.logDirectory=cos://xingyunyang/spark-events/ -Dspark.history.fs.update.interval=10"

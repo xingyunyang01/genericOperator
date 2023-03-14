@@ -44,8 +44,6 @@ func InitManager() {
 	genericCtl := controllers.NewGenericController(
 		mgr.GetEventRecorderFor("gr"),
 	)
-	// 第一章的单资源模式
-	//ownsObjects := helpers.ScanTplFileToObjects()
 
 	// 多资源
 	ownsObjects := helpers.ScanToObjects()
@@ -61,12 +59,13 @@ func InitManager() {
 		os.Exit(1)
 	}
 
-	//if err = builder.ControllerManagedBy(mgr).
-	//	For(&v1alpha1.Generic{}).
-	//	Complete(genericCtl); err != nil {
-	//	mgr.GetLogger().Error(err, "unable to create manager")
-	//	os.Exit(1)
-	//}
+	// if err = builder.ControllerManagedBy(mgr).
+	// 	For(&v1alpha1.Generic{}).
+	// 	Owns(&v1.Pod)
+	// 	Complete(genericCtl); err != nil {
+	// 	mgr.GetLogger().Error(err, "unable to create manager")
+	// 	os.Exit(1)
+	// }
 
 	if err = mgr.Start(signals.SetupSignalHandler()); err != nil {
 		mgr.GetLogger().Error(err, "unable to start manager")

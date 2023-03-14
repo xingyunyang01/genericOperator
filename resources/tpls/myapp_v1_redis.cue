@@ -18,7 +18,6 @@ generic:{}
 myapp_v1_redis_input:{
 	name: string
 	ns: string | *"default"
-	enable: string
 }
 
 // workflow 是固定节点名称
@@ -106,30 +105,5 @@ workflow: {
 			crname: "cr"
 		}
 		order: step1.order
-	}
-	step3: {
-		body: corev1.#Configmap & {
-			apiVersion: "v1"
-			kind:       "ConfigMap"
-			metadata: {
-					name:      "cm"
-					namespace: "spark"
-			}
-			data: {
-				"spark-defaults.conf": """
-						spark.eventLog.enabled true
-						spark.eventLog.dir cos://xingyunyang/spark-events/
-						spark.hadoop.fs.s3a.access.key=gdfgdfgdfgdfgdfgdfg
-						spark.hadoop.fs.s3a.secret.key=gfdgdfgdfgdfgdfgfdg
-						spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
-						spark.hadoop.fs.s3a.endpoint=cos.hhht-hqc.cos.tg.unicom.local
-						spark.hadoop.fs.s3a.connection.ssl.enabled=\"false\"
-						"""
-				"spark-env.sh": """
-						export SPARK_HISTORY_OPTS=\"-Dspark.history.ui.port=18080 -Dspark.history.retainedApplications=3 -Dspark.history.fs.logDirectory=cos://xingyunyang/spark-events/ -Dspark.history.fs.update.interval=10\"
-
-						"""
-			}
-		}
 	}
 }
